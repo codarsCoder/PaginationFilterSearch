@@ -2,7 +2,7 @@ from rest_framework.pagination import (
     PageNumberPagination,LimitOffsetPagination,CursorPagination
 )
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size=5
+    page_size=20
     page_query_param='sayfa'
 
 class CustomLimitOffsetPagination(LimitOffsetPagination):

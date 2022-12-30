@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     #thirdparty
     'rest_framework',
     'django_filters',
+     'rest_framework.authtoken',
     # my_apps
     'student_api',
    
@@ -138,5 +139,9 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.CursorPagination',
     # 'PAGE_SIZE': 30,
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']  ##filtreleme için
-    # 'DEFAULT_FILTER_BACKENDS': ['rest_framework.filters.SearchFilter','rest_framework.filters.OrderingFilter']   ## arama yapmak için
+    # 'DEFAULT_FILTER_BACKENDS': ['rest_framework.filters.SearchFilter','rest_framework.filters.OrderingFilter']   ## arama ve ordering(sıralama) yapmak için
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
 }

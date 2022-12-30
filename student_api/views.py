@@ -260,7 +260,7 @@ class StudentDetailCV(RetrieveUpdateDestroyAPIView):
 from .pagination import *
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter,OrderingFilter
-
+from rest_framework.permissions import BasePermission, IsAuthenticated,IsAuthenticatedOrReadOnly
 class StudentMVS(ModelViewSet):
     
     queryset = Student.objects.all()
@@ -271,7 +271,7 @@ class StudentMVS(ModelViewSet):
     filter_backends=[DjangoFilterBackend,SearchFilter,OrderingFilter]  ##burası local olarak filter_backends eklemek için sırayla filtreleme,search ve ordering ekledik  bura yoksa settings.py den de ekleme yapılmalı
     filterset_fields=['id','first_name','last_name'] #filtreleme için alanlar
     search_fields=['first_name','last_name'] # search yapılacak alanlar belirlendi
-
+    permission_classes=[IsAuthenticated]
     @action(detail=False, methods=["GET"])
     def student_count(self, request):
         count = {
