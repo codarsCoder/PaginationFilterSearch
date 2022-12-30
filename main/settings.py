@@ -45,6 +45,7 @@ INSTALLED_APPS = [
      'rest_framework.authtoken',
     # my_apps
     'student_api',
+    'user',
    
 ]
 
