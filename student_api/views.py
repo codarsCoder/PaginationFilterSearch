@@ -290,3 +290,5 @@ class PathMVS(ModelViewSet):
         path = self.get_object()
         students = path.students.all()
         return Response([i.first_name for i in students])
+    
+    

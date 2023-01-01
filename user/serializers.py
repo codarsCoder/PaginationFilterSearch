@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User # user işlemleri için bunu import ettik bu djangonun user modeli bununla user db ye ulaşacağız, user için hazır modeli kullanacağız extra model oluşturma zaahmetindn kurtuldu
 from rest_framework.validators import UniqueValidator
+from rest_framework.authtoken.models import Token
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required = True, validators=[UniqueValidator(queryset=User.objects.all())]) # bu alan modelde required eğil ama biz vaildsayonda required olarak override ettik
@@ -26,7 +27,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         if data['password'] != data['password2']:
             raise serializers.ValidationError({'password': 'Password fields didnt match.'})   
         return data 
-    
+    ## aslında burada create metodunu override ediyoruz
     def create(self, validated_data):  ## biz validasyon işlemi için passwordleri işe kattık ama onlar dbye kaydedilmeyecek bu yüzden manuel kayıt işlemi gerçekleştirmek gerekiyor  bu kısımda   ve validasyon sonrsı db ye kayıt sağlar
        
         # password2 kullanılmayacağı için dictten çıkardık
@@ -39,3 +40,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(password) #yeni user pass kaydetmeliyiz
         user.save()
         return user
+    
+    ### NOT aslında bu metod çağırıldığında kendi içnde bulunan create de extend edilip kullanılabiliyor   aşağıdaki gibi bir kullanımda işimizi görür yukarıdaki daha kolay 
+    # def create(self, validated_data):
+    #     response =  super().create(validated_data) # burada ki create içinde data respons ediliyor
+    #     token = Token.objects.create(user_id=response.data['id']) # user modelindeki id yi burası user_id olarak tanıyor 
+    #     response.data['token'] = token.key
+    #     return response
